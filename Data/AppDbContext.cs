@@ -13,6 +13,7 @@ public class AppDbContext : DbContext
     public DbSet<Clinic> Clinics { get; set; }
     public DbSet<User> Users { get; set; }
     public DbSet<Patient> Patients { get; set; }
+    public DbSet<Material> Materials { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -31,7 +32,13 @@ public class AppDbContext : DbContext
             .HasForeignKey(p => p.ClinicId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        // جعل Email فريد (Unique)
+        modelBuilder.Entity<Material>()
+            .HasOne(m => m.Clinic)
+            .WithMany()
+            .HasForeignKey(m => m.ClinicId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        // Make Email unique
         modelBuilder.Entity<User>()
             .HasIndex(u => u.Email)
             .IsUnique();
