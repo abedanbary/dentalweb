@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لوحة التحكم - نظام إدارة العيادات</title>
+    <title>Dashboard - DentalCare</title>
     <link rel="stylesheet" href="/css/dashboard.css">
 </head>
 <body>
@@ -18,40 +18,40 @@
             </div>
 
             <nav class="sidebar-nav">
-                <a href="#" class="nav-item active">
+                <a href="#" class="nav-item active" data-page="overview">
                     <span class="nav-icon">📊</span>
-                    <span class="nav-text">لوحة التحكم</span>
+                    <span class="nav-text">Overview</span>
                 </a>
-                <a href="#" class="nav-item">
+                <a href="#" class="nav-item" data-page="patients">
                     <span class="nav-icon">👥</span>
-                    <span class="nav-text">المرضى</span>
+                    <span class="nav-text">Patients</span>
                 </a>
-                <a href="#" class="nav-item">
+                <a href="#" class="nav-item" data-page="appointments">
                     <span class="nav-icon">📅</span>
-                    <span class="nav-text">المواعيد</span>
+                    <span class="nav-text">Appointments</span>
                 </a>
-                <a href="#" class="nav-item">
+                <a href="#" class="nav-item" data-page="materials">
+                    <span class="nav-icon">📦</span>
+                    <span class="nav-text">Materials</span>
+                </a>
+                <a href="#" class="nav-item" data-page="doctors">
                     <span class="nav-icon">👨‍⚕️</span>
-                    <span class="nav-text">الأطباء</span>
+                    <span class="nav-text">Doctors</span>
                 </a>
-                <a href="#" class="nav-item">
-                    <span class="nav-icon">💰</span>
-                    <span class="nav-text">المالية</span>
-                </a>
-                <a href="#" class="nav-item">
+                <a href="#" class="nav-item" data-page="reports">
                     <span class="nav-icon">📈</span>
-                    <span class="nav-text">التقارير</span>
+                    <span class="nav-text">Reports</span>
                 </a>
-                <a href="#" class="nav-item">
+                <a href="#" class="nav-item" data-page="settings">
                     <span class="nav-icon">⚙️</span>
-                    <span class="nav-text">الإعدادات</span>
+                    <span class="nav-text">Settings</span>
                 </a>
             </nav>
 
             <div class="sidebar-footer">
                 <button class="logout-btn" id="logoutBtn">
                     <span class="nav-icon">🚪</span>
-                    <span class="nav-text">تسجيل الخروج</span>
+                    <span class="nav-text">Logout</span>
                 </button>
             </div>
         </aside>
@@ -61,13 +61,13 @@
             <!-- Top Bar -->
             <header class="top-bar">
                 <div class="top-bar-left">
-                    <h1>لوحة التحكم</h1>
-                    <p class="breadcrumb">الرئيسية / لوحة التحكم</p>
+                    <h1 id="pageTitle">Dashboard</h1>
+                    <p class="breadcrumb">Home / Dashboard</p>
                 </div>
                 <div class="top-bar-right">
                     <div class="search-box">
                         <span class="search-icon">🔍</span>
-                        <input type="text" placeholder="البحث...">
+                        <input type="text" placeholder="Search...">
                     </div>
                     <button class="notification-btn">
                         <span class="notification-icon">🔔</span>
@@ -78,175 +78,277 @@
                             <span id="userInitials">AM</span>
                         </div>
                         <div class="user-info">
-                            <span class="user-name" id="userName">مدير العيادة</span>
+                            <span class="user-name" id="userName">Manager</span>
                             <span class="user-role" id="userRole">Manager</span>
                         </div>
                     </div>
                 </div>
             </header>
 
-            <!-- Stats Cards -->
-            <section class="stats-grid">
-                <div class="stat-card stat-card-primary">
-                    <div class="stat-icon">👥</div>
-                    <div class="stat-content">
-                        <h3 class="stat-value" id="totalPatients">0</h3>
-                        <p class="stat-label">إجمالي المرضى</p>
-                        <span class="stat-change positive">+12% من الشهر الماضي</span>
-                    </div>
-                </div>
-
-                <div class="stat-card stat-card-success">
-                    <div class="stat-icon">📅</div>
-                    <div class="stat-content">
-                        <h3 class="stat-value" id="todayAppointments">0</h3>
-                        <p class="stat-label">مواعيد اليوم</p>
-                        <span class="stat-change positive">+5 مواعيد جديدة</span>
-                    </div>
-                </div>
-
-                <div class="stat-card stat-card-warning">
-                    <div class="stat-icon">👨‍⚕️</div>
-                    <div class="stat-content">
-                        <h3 class="stat-value" id="totalDoctors">0</h3>
-                        <p class="stat-label">الأطباء</p>
-                        <span class="stat-change neutral">جميعهم نشطون</span>
-                    </div>
-                </div>
-
-                <div class="stat-card stat-card-info">
-                    <div class="stat-icon">💰</div>
-                    <div class="stat-content">
-                        <h3 class="stat-value" id="monthlyRevenue">$0</h3>
-                        <p class="stat-label">إيرادات الشهر</p>
-                        <span class="stat-change positive">+8% نمو</span>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Charts Section -->
-            <section class="charts-section">
-                <div class="chart-card">
-                    <div class="chart-header">
-                        <h3>المواعيد هذا الأسبوع</h3>
-                        <select class="chart-filter">
-                            <option>آخر 7 أيام</option>
-                            <option>آخر 30 يوم</option>
-                            <option>آخر 3 أشهر</option>
-                        </select>
-                    </div>
-                    <div class="chart-body">
-                        <div class="chart-placeholder">
-                            <div class="bar-chart">
-                                <div class="bar" style="height: 60%"><span>15</span></div>
-                                <div class="bar" style="height: 80%"><span>20</span></div>
-                                <div class="bar" style="height: 45%"><span>12</span></div>
-                                <div class="bar" style="height: 90%"><span>25</span></div>
-                                <div class="bar" style="height: 70%"><span>18</span></div>
-                                <div class="bar" style="height: 55%"><span>14</span></div>
-                                <div class="bar" style="height: 75%"><span>19</span></div>
-                            </div>
-                            <div class="chart-labels">
-                                <span>السبت</span>
-                                <span>الأحد</span>
-                                <span>الاثنين</span>
-                                <span>الثلاثاء</span>
-                                <span>الأربعاء</span>
-                                <span>الخميس</span>
-                                <span>الجمعة</span>
-                            </div>
+            <!-- Overview Page -->
+            <div id="page-overview" class="page-content active">
+                <!-- Stats Cards -->
+                <section class="stats-grid">
+                    <div class="stat-card stat-card-primary">
+                        <div class="stat-icon">👥</div>
+                        <div class="stat-content">
+                            <h3 class="stat-value" id="totalPatients">0</h3>
+                            <p class="stat-label">Total Patients</p>
+                            <span class="stat-change positive">+12% this month</span>
                         </div>
                     </div>
-                </div>
 
-                <div class="chart-card">
-                    <div class="chart-header">
-                        <h3>أنواع العلاج</h3>
+                    <div class="stat-card stat-card-success">
+                        <div class="stat-icon">📅</div>
+                        <div class="stat-content">
+                            <h3 class="stat-value" id="todayAppointments">0</h3>
+                            <p class="stat-label">Today's Appointments</p>
+                            <span class="stat-change positive">+5 new bookings</span>
+                        </div>
                     </div>
-                    <div class="chart-body">
-                        <div class="progress-list">
-                            <div class="progress-item">
-                                <div class="progress-info">
-                                    <span>تنظيف الأسنان</span>
-                                    <span class="progress-value">45%</span>
+
+                    <div class="stat-card stat-card-warning">
+                        <div class="stat-icon">📦</div>
+                        <div class="stat-content">
+                            <h3 class="stat-value" id="lowStockItems">0</h3>
+                            <p class="stat-label">Low Stock Items</p>
+                            <span class="stat-change neutral">Need attention</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card stat-card-info">
+                        <div class="stat-icon">💰</div>
+                        <div class="stat-content">
+                            <h3 class="stat-value" id="monthlyRevenue">$0</h3>
+                            <p class="stat-label">This Month</p>
+                            <span class="stat-change positive">+8% growth</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Charts Section -->
+                <section class="charts-section">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3>This Week's Activity</h3>
+                            <select class="chart-filter">
+                                <option>Last 7 days</option>
+                                <option>Last 30 days</option>
+                                <option>Last 3 months</option>
+                            </select>
+                        </div>
+                        <div class="chart-body">
+                            <div class="chart-placeholder">
+                                <div class="bar-chart">
+                                    <div class="bar" style="height: 60%"><span>15</span></div>
+                                    <div class="bar" style="height: 80%"><span>20</span></div>
+                                    <div class="bar" style="height: 45%"><span>12</span></div>
+                                    <div class="bar" style="height: 90%"><span>25</span></div>
+                                    <div class="bar" style="height: 70%"><span>18</span></div>
+                                    <div class="bar" style="height: 55%"><span>14</span></div>
+                                    <div class="bar" style="height: 75%"><span>19</span></div>
                                 </div>
-                                <div class="progress-bar">
-                                    <div class="progress-fill" style="width: 45%; background: #3b82f6;"></div>
-                                </div>
-                            </div>
-                            <div class="progress-item">
-                                <div class="progress-info">
-                                    <span>حشوات</span>
-                                    <span class="progress-value">30%</span>
-                                </div>
-                                <div class="progress-bar">
-                                    <div class="progress-fill" style="width: 30%; background: #10b981;"></div>
-                                </div>
-                            </div>
-                            <div class="progress-item">
-                                <div class="progress-info">
-                                    <span>تقويم</span>
-                                    <span class="progress-value">15%</span>
-                                </div>
-                                <div class="progress-bar">
-                                    <div class="progress-fill" style="width: 15%; background: #f59e0b;"></div>
-                                </div>
-                            </div>
-                            <div class="progress-item">
-                                <div class="progress-info">
-                                    <span>تبييض</span>
-                                    <span class="progress-value">10%</span>
-                                </div>
-                                <div class="progress-bar">
-                                    <div class="progress-fill" style="width: 10%; background: #8b5cf6;"></div>
+                                <div class="chart-labels">
+                                    <span>Mon</span>
+                                    <span>Tue</span>
+                                    <span>Wed</span>
+                                    <span>Thu</span>
+                                    <span>Fri</span>
+                                    <span>Sat</span>
+                                    <span>Sun</span>
                                 </div>
                             </div>
                         </div>
                     </div>
+
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3>Treatment Types</h3>
+                        </div>
+                        <div class="chart-body">
+                            <div class="progress-list">
+                                <div class="progress-item">
+                                    <div class="progress-info">
+                                        <span>Cleaning</span>
+                                        <span class="progress-value">45%</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 45%; background: #3b82f6;"></div>
+                                    </div>
+                                </div>
+                                <div class="progress-item">
+                                    <div class="progress-info">
+                                        <span>Fillings</span>
+                                        <span class="progress-value">30%</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 30%; background: #10b981;"></div>
+                                    </div>
+                                </div>
+                                <div class="progress-item">
+                                    <div class="progress-info">
+                                        <span>Braces</span>
+                                        <span class="progress-value">15%</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 15%; background: #f59e0b;"></div>
+                                    </div>
+                                </div>
+                                <div class="progress-item">
+                                    <div class="progress-info">
+                                        <span>Whitening</span>
+                                        <span class="progress-value">10%</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 10%; background: #8b5cf6;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Recent Activity -->
+                <section class="activity-section">
+                    <div class="section-header">
+                        <h2>Recent Activity</h2>
+                        <a href="#" class="see-all">See all →</a>
+                    </div>
+
+                    <div class="activity-list">
+                        <div class="activity-item">
+                            <div class="activity-icon activity-icon-success">✓</div>
+                            <div class="activity-content">
+                                <p class="activity-text">New appointment confirmed for <strong>John Doe</strong></p>
+                                <span class="activity-time">5 minutes ago</span>
+                            </div>
+                        </div>
+
+                        <div class="activity-item">
+                            <div class="activity-icon activity-icon-primary">👨‍⚕️</div>
+                            <div class="activity-content">
+                                <p class="activity-text">Dr. <strong>Sarah</strong> completed a treatment session</p>
+                                <span class="activity-time">15 minutes ago</span>
+                            </div>
+                        </div>
+
+                        <div class="activity-item">
+                            <div class="activity-icon activity-icon-warning">💰</div>
+                            <div class="activity-content">
+                                <p class="activity-text">Payment received: <strong>$450</strong></p>
+                                <span class="activity-time">1 hour ago</span>
+                            </div>
+                        </div>
+
+                        <div class="activity-item">
+                            <div class="activity-icon activity-icon-info">📅</div>
+                            <div class="activity-content">
+                                <p class="activity-text">Reminder: Appointment with <strong>Jane</strong> in 1 hour</p>
+                                <span class="activity-time">2 hours ago</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Materials Page -->
+            <div id="page-materials" class="page-content">
+                <div class="page-header">
+                    <h2>📦 Materials & Supplies</h2>
+                    <button class="btn-primary" id="addMaterialBtn">+ Add Material</button>
                 </div>
-            </section>
 
-            <!-- Recent Activity -->
-            <section class="activity-section">
-                <div class="section-header">
-                    <h2>النشاطات الأخيرة</h2>
-                    <a href="#" class="see-all">عرض الكل →</a>
+                <div class="materials-grid" id="materialsGrid">
+                    <div class="loading-message">Loading materials...</div>
                 </div>
 
-                <div class="activity-list">
-                    <div class="activity-item">
-                        <div class="activity-icon activity-icon-success">✓</div>
-                        <div class="activity-content">
-                            <p class="activity-text">تم تأكيد موعد جديد لـ <strong>محمد أحمد</strong></p>
-                            <span class="activity-time">منذ 5 دقائق</span>
+                <!-- Add/Edit Material Modal -->
+                <div class="modal" id="materialModal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 id="modalTitle">Add Material</h3>
+                            <button class="modal-close" id="closeModal">×</button>
                         </div>
-                    </div>
-
-                    <div class="activity-item">
-                        <div class="activity-icon activity-icon-primary">👨‍⚕️</div>
-                        <div class="activity-content">
-                            <p class="activity-text">د. <strong>سارة محمود</strong> أكملت جلسة علاج</p>
-                            <span class="activity-time">منذ 15 دقيقة</span>
-                        </div>
-                    </div>
-
-                    <div class="activity-item">
-                        <div class="activity-icon activity-icon-warning">💰</div>
-                        <div class="activity-content">
-                            <p class="activity-text">تم استلام دفعة مالية بقيمة <strong>$450</strong></p>
-                            <span class="activity-time">منذ ساعة</span>
-                        </div>
-                    </div>
-
-                    <div class="activity-item">
-                        <div class="activity-icon activity-icon-info">📅</div>
-                        <div class="activity-content">
-                            <p class="activity-text">تذكير: موعد مع <strong>فاطمة علي</strong> خلال ساعة</p>
-                            <span class="activity-time">منذ ساعتين</span>
-                        </div>
+                        <form id="materialForm">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label>Name *</label>
+                                    <input type="text" id="materialName" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Unit</label>
+                                    <input type="text" id="materialUnit" placeholder="box, piece, ml...">
+                                </div>
+                                <div class="form-group">
+                                    <label>Quantity *</label>
+                                    <input type="number" id="materialQuantity" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Min. Stock</label>
+                                    <input type="number" id="materialMinStock" value="10">
+                                </div>
+                                <div class="form-group">
+                                    <label>Price</label>
+                                    <input type="number" step="0.01" id="materialPrice">
+                                </div>
+                                <div class="form-group">
+                                    <label>Supplier</label>
+                                    <input type="text" id="materialSupplier">
+                                </div>
+                                <div class="form-group full-width">
+                                    <label>Description</label>
+                                    <textarea id="materialDescription" rows="3"></textarea>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn-secondary" id="cancelModal">Cancel</button>
+                                <button type="submit" class="btn-primary">Save</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
-            </section>
+            </div>
+
+            <!-- Other Pages (Placeholder) -->
+            <div id="page-patients" class="page-content">
+                <div class="coming-soon">
+                    <div class="coming-soon-icon">👥</div>
+                    <h2>Patients</h2>
+                    <p>Coming soon! This feature is under development.</p>
+                </div>
+            </div>
+
+            <div id="page-appointments" class="page-content">
+                <div class="coming-soon">
+                    <div class="coming-soon-icon">📅</div>
+                    <h2>Appointments</h2>
+                    <p>Coming soon! This feature is under development.</p>
+                </div>
+            </div>
+
+            <div id="page-doctors" class="page-content">
+                <div class="coming-soon">
+                    <div class="coming-soon-icon">👨‍⚕️</div>
+                    <h2>Doctors</h2>
+                    <p>Coming soon! This feature is under development.</p>
+                </div>
+            </div>
+
+            <div id="page-reports" class="page-content">
+                <div class="coming-soon">
+                    <div class="coming-soon-icon">📈</div>
+                    <h2>Reports</h2>
+                    <p>Coming soon! This feature is under development.</p>
+                </div>
+            </div>
+
+            <div id="page-settings" class="page-content">
+                <div class="coming-soon">
+                    <div class="coming-soon-icon">⚙️</div>
+                    <h2>Settings</h2>
+                    <p>Coming soon! This feature is under development.</p>
+                </div>
+            </div>
         </main>
     </div>
 
