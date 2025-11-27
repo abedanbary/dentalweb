@@ -43,7 +43,18 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddAuthorization();
 
-// 4) إعدادات الـ Web API العادية
+// 4) إعداد CORS
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
+
+// 5) إعدادات الـ Web API العادية
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -56,7 +67,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+// تفعيل Static Files (للواجهة)
+app.UseDefaultFiles();
+app.UseStaticFiles();
+
 app.UseHttpsRedirection();
+
+app.UseCors();
 
 app.UseAuthentication();
 app.UseAuthorization();
