@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل الدخول - نظام إدارة العيادات</title>
+    <link rel="stylesheet" href="/css/login.css">
+</head>
+<body>
+    <div class="login-container">
+        <!-- Left Side - Branding -->
+        <div class="brand-side">
+            <div class="brand-content">
+                <div class="logo">
+                    <div class="logo-icon">🦷</div>
+                    <h1>DentalCare</h1>
+                </div>
+                <h2>نظام إدارة العيادات السنية</h2>
+                <p class="tagline">إدارة ذكية لعيادة عصرية</p>
+
+                <div class="features">
+                    <div class="feature-item">
+                        <span class="feature-icon">✨</span>
+                        <span>إدارة المرضى والمواعيد</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">📊</span>
+                        <span>تقارير وإحصائيات مفصلة</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">🔒</span>
+                        <span>أمان وحماية البيانات</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">☁️</span>
+                        <span>سحابي ومتاح في أي وقت</span>
+                    </div>
+                </div>
+
+                <div class="testimonial">
+                    <p>"أفضل نظام لإدارة العيادات السنية. سهل وفعّال!"</p>
+                    <span class="testimonial-author">- د. أحمد محمد</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Side - Login Form -->
+        <div class="form-side">
+            <div class="form-container">
+                <div class="form-header">
+                    <h2>مرحباً بعودتك</h2>
+                    <p>قم بتسجيل الدخول للوصول إلى لوحة التحكم</p>
+                </div>
+
+                <!-- Dev Only: Quick Test Data -->
+                <div class="dev-notice" id="devNotice">
+                    <div class="dev-notice-header">
+                        <span>🔧 وضع التطوير</span>
+                        <button class="close-btn" onclick="this.parentElement.parentElement.remove()">×</button>
+                    </div>
+                    <p>لإنشاء بيانات تجريبية:</p>
+                    <button class="dev-btn" id="createTestDataBtn">إنشاء بيانات تجريبية</button>
+                    <div id="devResult"></div>
+                </div>
+
+                <form id="loginForm" class="login-form">
+                    <div class="form-group">
+                        <label for="email">
+                            <span class="label-icon">📧</span>
+                            البريد الإلكتروني
+                        </label>
+                        <input
+                            type="email"
+                            id="email"
+                            class="form-input"
+                            placeholder="admin@clinic.com"
+                            value="admin@clinic.com"
+                            required
+                            autocomplete="email"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">
+                            <span class="label-icon">🔒</span>
+                            كلمة المرور
+                        </label>
+                        <div class="password-wrapper">
+                            <input
+                                type="password"
+                                id="password"
+                                class="form-input"
+                                placeholder="••••••••"
+                                value="Admin123!"
+                                required
+                                autocomplete="current-password"
+                            >
+                            <button type="button" class="toggle-password" id="togglePassword">
+                                👁️
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="form-options">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="rememberMe">
+                            <span>تذكرني</span>
+                        </label>
+                        <a href="#" class="forgot-password">نسيت كلمة المرور؟</a>
+                    </div>
+
+                    <button type="submit" class="submit-btn" id="loginBtn">
+                        <span class="btn-text">تسجيل الدخول</span>
+                        <span class="btn-icon">→</span>
+                    </button>
+
+                    <div class="alert" id="loginAlert"></div>
+                </form>
+
+                <div class="form-footer">
+                    <p>ليس لديك حساب؟ <a href="#">تواصل مع الدعم</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/login.js"></script>
+</body>
+</html>
