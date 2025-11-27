@@ -29,10 +29,10 @@ function handleTogglePassword() {
 
     if (passwordInput.type === 'password') {
         passwordInput.type = 'text';
-        toggleBtn.textContent = '🙈';
+        toggleBtn.textContent = 'Hide';
     } else {
         passwordInput.type = 'password';
-        toggleBtn.textContent = '👁️';
+        toggleBtn.textContent = 'Show';
     }
 }
 
@@ -42,7 +42,7 @@ async function createTestData() {
     const resultDiv = document.getElementById('devResult');
 
     btn.disabled = true;
-    btn.textContent = '⏳ جاري الإنشاء...';
+    btn.textContent = 'Creating...';
 
     try {
         const response = await fetch(`${API_BASE_URL}/api/seed/create-test-data`, {
@@ -56,9 +56,8 @@ async function createTestData() {
 
         if (response.ok) {
             showDevResult(resultDiv, 'success', `
-                ✅ تم إنشاء البيانات بنجاح!
-                <br><br>
-                <strong>البيانات:</strong><br>
+                Success! Test data created.<br><br>
+                <strong>Credentials:</strong><br>
                 Email: admin@clinic.com<br>
                 Password: Admin123!
             `);
@@ -68,16 +67,16 @@ async function createTestData() {
             document.getElementById('password').value = 'Admin123!';
         } else {
             showDevResult(resultDiv, 'error', `
-                ⚠️ ${data.message || 'البيانات موجودة بالفعل'}
+                ${data.message || 'Data already exists'}
             `);
         }
     } catch (error) {
         showDevResult(resultDiv, 'error', `
-            ❌ خطأ في الاتصال: ${error.message}
+            Connection error: ${error.message}
         `);
     } finally {
         btn.disabled = false;
-        btn.textContent = 'إنشاء بيانات تجريبية';
+        btn.textContent = 'Create Test Data';
     }
 }
 
@@ -92,7 +91,7 @@ async function handleLogin(e) {
     const submitBtn = document.getElementById('loginBtn');
 
     submitBtn.disabled = true;
-    submitBtn.innerHTML = '<span class="btn-text">⏳ جاري تسجيل الدخول...</span>';
+    submitBtn.innerHTML = '<span class="btn-text">Logging in...</span>';
 
     try {
         const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
@@ -117,21 +116,21 @@ async function handleLogin(e) {
                 clinicName: data.clinicName
             }));
 
-            showAlert(alertDiv, 'success', '✅ تم تسجيل الدخول بنجاح! جاري التحويل...');
+            showAlert(alertDiv, 'success', 'Login successful! Redirecting...');
 
             // Redirect to dashboard
             setTimeout(() => {
                 window.location.href = '/dashboard.html';
             }, 1000);
         } else {
-            showAlert(alertDiv, 'error', `❌ ${data.message || 'فشل تسجيل الدخول'}`);
+            showAlert(alertDiv, 'error', data.message || 'Login failed');
             submitBtn.disabled = false;
-            submitBtn.innerHTML = '<span class="btn-text">تسجيل الدخول</span><span class="btn-icon">→</span>';
+            submitBtn.innerHTML = '<span class="btn-text">Login</span>';
         }
     } catch (error) {
-        showAlert(alertDiv, 'error', `❌ خطأ في الاتصال: ${error.message}`);
+        showAlert(alertDiv, 'error', `Connection error: ${error.message}`);
         submitBtn.disabled = false;
-        submitBtn.innerHTML = '<span class="btn-text">تسجيل الدخول</span><span class="btn-icon">→</span>';
+        submitBtn.innerHTML = '<span class="btn-text">Login</span>';
     }
 }
 
