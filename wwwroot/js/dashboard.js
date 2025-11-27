@@ -152,62 +152,133 @@ function animateRevenue(id, start, end, duration) {
 // MATERIALS MANAGEMENT
 
 async function loadMaterials() {
-    const grid = document.getElementById('materialsGrid');
-    grid.innerHTML = '<div class="loading-message">Loading materials...</div>';
+    const tbody = document.getElementById('materialsTableBody');
+    tbody.innerHTML = '<tr><td colspan="8" class="loading-cell">Loading materials...</td></tr>';
 
     const materials = await apiCall('/api/materials');
     if (!materials) {
-        grid.innerHTML = '<div class="loading-message">Failed to load materials</div>';
+        tbody.innerHTML = '<tr><td colspan="8" class="loading-cell">Failed to load materials</td></tr>';
         return;
     }
 
     const data = await materials.json();
 
     if (data.length === 0) {
-        grid.innerHTML = '<div class="loading-message">No materials yet. Click "+ Add Material" to start!</div>';
+        tbody.innerHTML = '<tr><td colspan="8" class="loading-cell">No materials yet. Click "+ Add Material" to start!</td></tr>';
         return;
     }
 
-    grid.innerHTML = data.map(material => `
-        <div class="material-card ${material.quantity <= material.minimumStock ? 'low-stock' : ''}">
-            <div class="material-header">
-                <div class="material-name">${material.name}</div>
-                <div class="material-actions">
-                    <button onclick="editMaterial(${material.id})" title="Edit">✏️</button>
-                    <button onclick="deleteMaterial(${material.id})" title="Delete">🗑️</button>
-                </div>
-            </div>
-            <div class="material-info">
-                <div class="material-row">
-                    <span class="material-label">Stock:</span>
-                    <span class="material-value">
-                        ${material.quantity} ${material.unit || ''}
-                        ${material.quantity <= material.minimumStock ?
-                            '<span class="stock-badge low">Low Stock!</span>' :
-                            '<span class="stock-badge ok">OK</span>'}
-                    </span>
-                </div>
-                ${material.price ? `
-                <div class="material-row">
-                    <span class="material-label">Price:</span>
-                    <span class="material-value">$${material.price}</span>
-                </div>
-                ` : ''}
-                ${material.supplier ? `
-                <div class="material-row">
-                    <span class="material-label">Supplier:</span>
-                    <span class="material-value">${material.supplier}</span>
-                </div>
-                ` : ''}
-                ${material.description ? `
-                <div class="material-row">
-                    <span class="material-label">Note:</span>
-                    <span class="material-value">${material.description}</span>
-                </div>
-                ` : ''}
-            </div>
-        </div>
-    `).join('');
+    tbody.innerHTML = data.map(material => {
+        const isLowStock = material.quantity <= material.minimumStock;
+        const statusClass = material.quantity === 0 ? 'critical' : (isLowStock ? 'low' : 'ok');
+        const statusText = material.quantity === 0 ? 'Out of Stock' : (isLowStock ? 'Low Stock' : 'In Stock');
+
+        return `
+            <tr class="material-row" data-material-id="${material.id}">
+                <td>
+                    <button class="expand-btn" onclick="toggleHistory(${material.id})" title="View History">
+                        ▶
+                    </button>
+                </td>
+                <td class="material-name-cell">${material.name}</td>
+                <td class="stock-cell ${isLowStock ? 'low-stock' : ''}">
+                    ${material.quantity} ${material.unit || 'units'}
+                </td>
+                <td>${material.minimumStock}</td>
+                <td>
+                    <span class="status-badge ${statusClass}">${statusText}</span>
+                </td>
+                <td>$${material.price ? material.price.toFixed(2) : '0.00'}</td>
+                <td>${material.supplier || '-'}</td>
+                <td>
+                    <button class="action-btn" onclick="editMaterial(${material.id})" title="Edit">Edit</button>
+                    <button class="action-btn" onclick="deleteMaterial(${material.id})" title="Delete">Delete</button>
+                </td>
+            </tr>
+            <tr class="history-row" id="history-${material.id}">
+                <td colspan="8" class="history-cell">
+                    <div class="history-content" id="history-content-${material.id}">
+                        <div class="loading-message">Loading history...</div>
+                    </div>
+                </td>
+            </tr>
+        `;
+    }).join('');
+}
+
+async function toggleHistory(materialId) {
+    const historyRow = document.getElementById(`history-${materialId}`);
+    const expandBtn = document.querySelector(`[onclick="toggleHistory(${materialId})"]`);
+    const historyContent = document.getElementById(`history-content-${materialId}`);
+
+    if (historyRow.classList.contains('visible')) {
+        // Collapse
+        historyRow.classList.remove('visible');
+        expandBtn.classList.remove('expanded');
+    } else {
+        // Expand and load history
+        historyRow.classList.add('visible');
+        expandBtn.classList.add('expanded');
+        await loadMaterialHistory(materialId, historyContent);
+    }
+}
+
+async function loadMaterialHistory(materialId, container) {
+    container.innerHTML = '<div class="loading-message" style="padding: 20px;">Loading history...</div>';
+
+    const response = await apiCall(`/api/materials/${materialId}/transactions`);
+    if (!response || !response.ok) {
+        container.innerHTML = '<div class="no-history">Failed to load history</div>';
+        return;
+    }
+
+    const transactions = await response.json();
+
+    if (transactions.length === 0) {
+        container.innerHTML = `
+            <div class="history-header">Transaction History</div>
+            <div class="no-history">No transactions yet</div>
+        `;
+        return;
+    }
+
+    container.innerHTML = `
+        <div class="history-header">Transaction History (${transactions.length} records)</div>
+        <table class="history-table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Type</th>
+                    <th>Quantity</th>
+                    <th>Balance After</th>
+                    <th>Unit Cost</th>
+                    <th>Supplier</th>
+                    <th>Performed By</th>
+                    <th>Notes</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${transactions.map(t => {
+                    const date = new Date(t.createdAt).toLocaleString();
+                    const quantityClass = t.quantity > 0 ? 'quantity-positive' : 'quantity-negative';
+                    const quantityText = t.quantity > 0 ? `+${t.quantity}` : t.quantity;
+
+                    return `
+                        <tr>
+                            <td>${date}</td>
+                            <td><span class="transaction-type ${t.transactionType.toLowerCase()}">${t.transactionType}</span></td>
+                            <td class="${quantityClass}">${quantityText}</td>
+                            <td>${t.balanceAfter}</td>
+                            <td>${t.unitCost ? '$' + t.unitCost.toFixed(2) : '-'}</td>
+                            <td>${t.supplier || '-'}</td>
+                            <td>${t.performedBy || '-'}</td>
+                            <td>${t.notes || '-'}</td>
+                        </tr>
+                    `;
+                }).join('')}
+            </tbody>
+        </table>
+    `;
 }
 
 function openMaterialModal(material = null) {
@@ -329,6 +400,7 @@ async function deleteMaterial(id) {
 // Make functions global for onclick handlers
 window.editMaterial = editMaterial;
 window.deleteMaterial = deleteMaterial;
+window.toggleHistory = toggleHistory;
 
 // Handle Logout
 function handleLogout() {
