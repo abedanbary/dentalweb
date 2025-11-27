@@ -3,106 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🦷 Dental Clinic Management System</title>
-    <link rel="stylesheet" href="/css/style.css">
+    <meta http-equiv="refresh" content="0; url=/login.html">
+    <title>DentalCare - نظام إدارة العيادات</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            color: white;
+        }
+        .loader {
+            text-align: center;
+        }
+        .loader-icon {
+            font-size: 4rem;
+            animation: spin 2s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        h1 {
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <header class="header">
-            <h1>🦷 نظام إدارة العيادات السنية</h1>
-            <p class="subtitle">Dental Clinic Management System</p>
-        </header>
-
-        <!-- Step 1: Create Test Data -->
-        <section class="card" id="seed-section">
-            <div class="card-header">
-                <h2>1️⃣ إنشاء بيانات تجريبية</h2>
-                <span class="step-badge">الخطوة الأولى</span>
-            </div>
-            <div class="card-body">
-                <p class="info">قم بإنشاء عيادة تجريبية ومستخدم مدير للاختبار</p>
-                <button class="btn btn-primary" id="createTestDataBtn">
-                    <span class="btn-icon">🚀</span>
-                    إنشاء البيانات التجريبية
-                </button>
-                <div class="result" id="seedResult"></div>
-            </div>
-        </section>
-
-        <!-- Step 2: Login -->
-        <section class="card" id="login-section">
-            <div class="card-header">
-                <h2>2️⃣ تسجيل الدخول</h2>
-                <span class="step-badge">الخطوة الثانية</span>
-            </div>
-            <div class="card-body">
-                <form id="loginForm">
-                    <div class="form-group">
-                        <label for="email">📧 البريد الإلكتروني</label>
-                        <input type="email" id="email" class="form-control"
-                               value="admin@clinic.com" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="password">🔒 كلمة المرور</label>
-                        <input type="password" id="password" class="form-control"
-                               value="Admin123!" required>
-                    </div>
-                    <button type="submit" class="btn btn-success">
-                        <span class="btn-icon">🔐</span>
-                        تسجيل الدخول
-                    </button>
-                </form>
-                <div class="result" id="loginResult"></div>
-            </div>
-        </section>
-
-        <!-- Step 3: User Info & Token -->
-        <section class="card hidden" id="user-section">
-            <div class="card-header">
-                <h2>3️⃣ معلومات المستخدم</h2>
-                <span class="step-badge success">✓ تم تسجيل الدخول</span>
-            </div>
-            <div class="card-body">
-                <div class="user-info" id="userInfo"></div>
-                <div class="token-section">
-                    <h3>🎫 JWT Token</h3>
-                    <div class="token-display" id="tokenDisplay"></div>
-                    <button class="btn btn-sm" id="copyTokenBtn">
-                        📋 نسخ الـ Token
-                    </button>
-                </div>
-                <button class="btn btn-danger" id="logoutBtn">
-                    <span class="btn-icon">🚪</span>
-                    تسجيل الخروج
-                </button>
-            </div>
-        </section>
-
-        <!-- API Status -->
-        <section class="card status-card">
-            <div class="card-header">
-                <h2>📊 حالة الـ API</h2>
-            </div>
-            <div class="card-body">
-                <div class="status-grid">
-                    <div class="status-item">
-                        <span class="status-label">API Status:</span>
-                        <span class="status-value" id="apiStatus">⏳ Checking...</span>
-                    </div>
-                    <div class="status-item">
-                        <span class="status-label">Base URL:</span>
-                        <span class="status-value" id="baseUrl">http://localhost:5000</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <footer class="footer">
-            <p>Built with ❤️ for Dental Clinics</p>
-            <p class="small">ASP.NET Core 8 + PostgreSQL + JWT Authentication</p>
-        </footer>
+    <div class="loader">
+        <div class="loader-icon">🦷</div>
+        <h1>جاري التحميل...</h1>
+        <p>سيتم تحويلك إلى صفحة تسجيل الدخول...</p>
     </div>
-
-    <script src="/js/app.js"></script>
+    <script>
+        // Redirect to login page
+        window.location.href = '/login.html';
+    </script>
 </body>
 </html>
