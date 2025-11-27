@@ -226,11 +226,29 @@
             <div id="page-materials" class="page-content">
                 <div class="page-header">
                     <h2>Materials & Supplies</h2>
-                    <button class="btn-primary" id="addMaterialBtn">Add Material</button>
+                    <button class="btn-primary" id="addMaterialBtn">+ Add Material</button>
                 </div>
 
-                <div class="materials-grid" id="materialsGrid">
-                    <div class="loading-message">Loading materials...</div>
+                <div class="materials-table-container">
+                    <table class="materials-table" id="materialsTable">
+                        <thead>
+                            <tr>
+                                <th style="width: 30px"></th>
+                                <th>Material Name</th>
+                                <th>Current Stock</th>
+                                <th>Min. Stock</th>
+                                <th>Status</th>
+                                <th>Price</th>
+                                <th>Supplier</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="materialsTableBody">
+                            <tr>
+                                <td colspan="8" class="loading-cell">Loading materials...</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
 
                 <!-- Add/Edit Material Modal -->

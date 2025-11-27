@@ -14,6 +14,7 @@ public class AppDbContext : DbContext
     public DbSet<User> Users { get; set; }
     public DbSet<Patient> Patients { get; set; }
     public DbSet<Material> Materials { get; set; }
+    public DbSet<MaterialTransaction> MaterialTransactions { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -36,6 +37,18 @@ public class AppDbContext : DbContext
             .HasOne(m => m.Clinic)
             .WithMany()
             .HasForeignKey(m => m.ClinicId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<MaterialTransaction>()
+            .HasOne(mt => mt.Material)
+            .WithMany()
+            .HasForeignKey(mt => mt.MaterialId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<MaterialTransaction>()
+            .HasOne(mt => mt.Clinic)
+            .WithMany()
+            .HasForeignKey(mt => mt.ClinicId)
             .OnDelete(DeleteBehavior.Restrict);
 
         // Make Email unique

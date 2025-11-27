@@ -25,6 +25,32 @@ public class MaterialsController : ControllerBase
         return int.Parse(clinicIdClaim ?? "0");
     }
 
+    private string GetUserName()
+    {
+        return User.Identity?.Name ?? User.FindFirst(ClaimTypes.Email)?.Value ?? "System";
+    }
+
+    private async Task CreateTransaction(int materialId, string type, int quantity, int balanceAfter,
+        decimal? unitCost = null, string? supplier = null, string? notes = null)
+    {
+        var transaction = new MaterialTransaction
+        {
+            MaterialId = materialId,
+            ClinicId = GetClinicId(),
+            TransactionType = type,
+            Quantity = quantity,
+            BalanceAfter = balanceAfter,
+            UnitCost = unitCost,
+            Supplier = supplier,
+            Notes = notes,
+            PerformedBy = GetUserName(),
+            CreatedAt = DateTime.UtcNow
+        };
+
+        _context.MaterialTransactions.Add(transaction);
+        await _context.SaveChangesAsync();
+    }
+
     // GET: api/materials
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Material>>> GetMaterials()
@@ -54,6 +80,29 @@ public class MaterialsController : ControllerBase
         return Ok(material);
     }
 
+    // GET: api/materials/5/transactions
+    [HttpGet("{id}/transactions")]
+    public async Task<ActionResult<IEnumerable<MaterialTransaction>>> GetMaterialTransactions(int id)
+    {
+        var clinicId = GetClinicId();
+
+        // Verify material exists and belongs to this clinic
+        var material = await _context.Materials
+            .FirstOrDefaultAsync(m => m.Id == id && m.ClinicId == clinicId);
+
+        if (material == null)
+        {
+            return NotFound();
+        }
+
+        var transactions = await _context.MaterialTransactions
+            .Where(mt => mt.MaterialId == id && mt.ClinicId == clinicId)
+            .OrderByDescending(mt => mt.CreatedAt)
+            .ToListAsync();
+
+        return Ok(transactions);
+    }
+
     // GET: api/materials/low-stock
     [HttpGet("low-stock")]
     public async Task<ActionResult<IEnumerable<Material>>> GetLowStockMaterials()
@@ -78,6 +127,17 @@ public class MaterialsController : ControllerBase
         _context.Materials.Add(material);
         await _context.SaveChangesAsync();
 
+        // Create initial transaction record
+        await CreateTransaction(
+            material.Id,
+            TransactionTypes.Restock,
+            material.Quantity,
+            material.Quantity,
+            material.Price > 0 ? material.Price : null,
+            material.Supplier,
+            "Initial stock"
+        );
+
         return CreatedAtAction(nameof(GetMaterial), new { id = material.Id }, material);
     }
 
@@ -100,6 +160,8 @@ public class MaterialsController : ControllerBase
             return NotFound();
         }
 
+        var oldQuantity = existingMaterial.Quantity;
+
         existingMaterial.Name = material.Name;
         existingMaterial.Description = material.Description;
         existingMaterial.Quantity = material.Quantity;
@@ -110,6 +172,19 @@ public class MaterialsController : ControllerBase
         existingMaterial.LastRestocked = material.LastRestocked;
 
         await _context.SaveChangesAsync();
+
+        // Create transaction if quantity changed
+        if (oldQuantity != material.Quantity)
+        {
+            var quantityDiff = material.Quantity - oldQuantity;
+            await CreateTransaction(
+                id,
+                TransactionTypes.Adjustment,
+                quantityDiff,
+                material.Quantity,
+                notes: $"Manual adjustment from {oldQuantity} to {material.Quantity}"
+            );
+        }
 
         return NoContent();
     }
@@ -135,7 +210,7 @@ public class MaterialsController : ControllerBase
 
     // POST: api/materials/5/restock
     [HttpPost("{id}/restock")]
-    public async Task<IActionResult> RestockMaterial(int id, [FromBody] int quantity)
+    public async Task<IActionResult> RestockMaterial(int id, [FromBody] RestockRequest request)
     {
         var clinicId = GetClinicId();
         var material = await _context.Materials
@@ -146,11 +221,31 @@ public class MaterialsController : ControllerBase
             return NotFound();
         }
 
-        material.Quantity += quantity;
+        material.Quantity += request.Quantity;
         material.LastRestocked = DateTime.UtcNow;
 
         await _context.SaveChangesAsync();
 
+        // Create transaction record
+        await CreateTransaction(
+            id,
+            TransactionTypes.Restock,
+            request.Quantity,
+            material.Quantity,
+            request.UnitCost,
+            request.Supplier,
+            request.Notes
+        );
+
         return Ok(new { material.Quantity, material.LastRestocked });
     }
+}
+
+// DTO for restock requests
+public class RestockRequest
+{
+    public int Quantity { get; set; }
+    public decimal? UnitCost { get; set; }
+    public string? Supplier { get; set; }
+    public string? Notes { get; set; }
 }
