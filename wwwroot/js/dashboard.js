@@ -242,6 +242,7 @@ function closeMaterialModal() {
 
 async function handleMaterialSubmit(e) {
     e.preventDefault();
+    console.log('Form submitted - starting save process');
 
     const materialData = {
         name: document.getElementById('materialName').value,
@@ -258,31 +259,44 @@ async function handleMaterialSubmit(e) {
         materialData.id = currentMaterialId;
     }
 
+    console.log('Material data to save:', materialData);
+
     const url = currentMaterialId
         ? `/api/materials/${currentMaterialId}`
         : '/api/materials';
 
     const method = currentMaterialId ? 'PUT' : 'POST';
+    console.log(`Making ${method} request to: ${url}`);
 
     const response = await apiCall(url, {
         method: method,
         body: JSON.stringify(materialData)
     });
 
+    console.log('Response received:', response);
+    console.log('Response status:', response?.status);
+    console.log('Response ok:', response?.ok);
+
     if (response && (response.ok || response.status === 204)) {
+        console.log('Save successful! Closing modal and reloading materials');
         closeMaterialModal();
         loadMaterials();
     } else {
         // Show more detailed error message
+        console.error('Save failed - response:', response);
         let errorMsg = 'Failed to save material';
         if (response) {
             try {
                 const errorData = await response.text();
-                console.error('API Error:', errorData);
-                errorMsg += '. Check browser console for details.';
+                console.error('API Error Response:', errorData);
+                console.error('Response status:', response.status);
+                errorMsg += `. Status: ${response.status}. Check console for details.`;
             } catch (e) {
-                console.error('Could not read error response');
+                console.error('Could not read error response:', e);
             }
+        } else {
+            console.error('No response received - possible network error');
+            errorMsg += '. No response from server. Check network.';
         }
         alert(errorMsg);
     }
