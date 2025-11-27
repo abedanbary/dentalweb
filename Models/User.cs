@@ -10,7 +10,7 @@ public class User
 
     // Multi-tenancy: كل مستخدم ينتمي لعيادة واحدة
     public int ClinicId { get; set; }
-    public Clinic Clinic { get; set; } = null!;
+    public Clinic? Clinic { get; set; }
 
     public bool IsActive { get; set; } = true;
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
