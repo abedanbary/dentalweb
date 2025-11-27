@@ -13,7 +13,7 @@ public class Material
 
     // Multi-tenancy: Each material belongs to a clinic
     public int ClinicId { get; set; }
-    public Clinic Clinic { get; set; } = null!;
+    public Clinic? Clinic { get; set; }
 
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime? LastRestocked { get; set; }

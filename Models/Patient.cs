@@ -9,7 +9,7 @@ public class Patient
 
     // Multi-tenancy: كل مريض ينتمي لعيادة واحدة
     public int ClinicId { get; set; }
-    public Clinic Clinic { get; set; } = null!;
+    public Clinic? Clinic { get; set; }
 
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 }
