@@ -253,6 +253,11 @@ async function handleMaterialSubmit(e) {
         description: document.getElementById('materialDescription').value
     };
 
+    // Add id when editing
+    if (currentMaterialId) {
+        materialData.id = currentMaterialId;
+    }
+
     const url = currentMaterialId
         ? `/api/materials/${currentMaterialId}`
         : '/api/materials';
@@ -268,7 +273,18 @@ async function handleMaterialSubmit(e) {
         closeMaterialModal();
         loadMaterials();
     } else {
-        alert('Failed to save material');
+        // Show more detailed error message
+        let errorMsg = 'Failed to save material';
+        if (response) {
+            try {
+                const errorData = await response.text();
+                console.error('API Error:', errorData);
+                errorMsg += '. Check browser console for details.';
+            } catch (e) {
+                console.error('Could not read error response');
+            }
+        }
+        alert(errorMsg);
     }
 }
 
