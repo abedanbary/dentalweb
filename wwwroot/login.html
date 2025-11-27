@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome Back! - DentalCare</title>
+    <title>Login - DentalCare</title>
     <link rel="stylesheet" href="/css/login.css">
 </head>
 <body>
@@ -12,33 +12,33 @@
         <div class="brand-side">
             <div class="brand-content">
                 <div class="logo">
-                    <div class="logo-icon">🦷</div>
+                    <div class="logo-icon">DC</div>
                     <h1>DentalCare</h1>
                 </div>
-                <h2>Your Clinic, Simplified</h2>
-                <p class="tagline">Manage smarter, not harder!</p>
+                <h2>Your Clinic Management System</h2>
+                <p class="tagline">Simple. Efficient. Professional.</p>
 
                 <div class="features">
                     <div class="feature-item">
-                        <span class="feature-icon">✨</span>
-                        <span>Easy patient & appointment management</span>
+                        <span class="feature-icon">•</span>
+                        <span>Patient & Appointment Management</span>
                     </div>
                     <div class="feature-item">
-                        <span class="feature-icon">📊</span>
-                        <span>Clear reports at a glance</span>
+                        <span class="feature-icon">•</span>
+                        <span>Inventory & Materials Tracking</span>
                     </div>
                     <div class="feature-item">
-                        <span class="feature-icon">📦</span>
-                        <span>Track supplies & materials</span>
+                        <span class="feature-icon">•</span>
+                        <span>Reports & Analytics</span>
                     </div>
                     <div class="feature-item">
-                        <span class="feature-icon">☁️</span>
-                        <span>Access anywhere, anytime</span>
+                        <span class="feature-icon">•</span>
+                        <span>Cloud-Based Access</span>
                     </div>
                 </div>
 
                 <div class="testimonial">
-                    <p>"This system saved me hours every week. Love it!"</p>
+                    <p>"This system saves me hours every week."</p>
                     <span class="testimonial-author">- Dr. Ahmed</span>
                 </div>
             </div>
@@ -48,27 +48,24 @@
         <div class="form-side">
             <div class="form-container">
                 <div class="form-header">
-                    <h2>Hey there! 👋</h2>
+                    <h2>Welcome Back</h2>
                     <p>Login to access your dashboard</p>
                 </div>
 
                 <!-- Dev Only: Quick Test Data -->
                 <div class="dev-notice" id="devNotice">
                     <div class="dev-notice-header">
-                        <span>🔧 Dev Mode</span>
+                        <span>Development Mode</span>
                         <button class="close-btn" onclick="this.parentElement.parentElement.remove()">×</button>
                     </div>
-                    <p>Need test data? Click below:</p>
+                    <p>Need test data?</p>
                     <button class="dev-btn" id="createTestDataBtn">Create Test Data</button>
                     <div id="devResult"></div>
                 </div>
 
                 <form id="loginForm" class="login-form">
                     <div class="form-group">
-                        <label for="email">
-                            <span class="label-icon">📧</span>
-                            Email
-                        </label>
+                        <label for="email">Email Address</label>
                         <input
                             type="email"
                             id="email"
@@ -81,22 +78,19 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="password">
-                            <span class="label-icon">🔒</span>
-                            Password
-                        </label>
+                        <label for="password">Password</label>
                         <div class="password-wrapper">
                             <input
                                 type="password"
                                 id="password"
                                 class="form-input"
-                                placeholder="••••••••"
+                                placeholder="Enter your password"
                                 value="Admin123!"
                                 required
                                 autocomplete="current-password"
                             >
                             <button type="button" class="toggle-password" id="togglePassword">
-                                👁️
+                                Show
                             </button>
                         </div>
                     </div>
@@ -110,8 +104,7 @@
                     </div>
 
                     <button type="submit" class="submit-btn" id="loginBtn">
-                        <span class="btn-text">Let's Go!</span>
-                        <span class="btn-icon">→</span>
+                        <span class="btn-text">Login</span>
                     </button>
 
                     <div class="alert" id="loginAlert"></div>
