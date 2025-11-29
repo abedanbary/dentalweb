@@ -358,16 +358,32 @@ async function handleMaterialSubmit(e) {
         let errorMsg = 'Failed to save material';
         if (response) {
             try {
-                const errorData = await response.text();
-                console.error('API Error Response:', errorData);
-                console.error('Response status:', response.status);
-                errorMsg += `. Status: ${response.status}. Check console for details.`;
+                const errorText = await response.text();
+                console.error('API Error Response:', errorText);
+
+                // Try to parse JSON error
+                try {
+                    const errorData = JSON.parse(errorText);
+                    if (errorData.message) {
+                        errorMsg = errorData.message;
+                    } else if (errorData.errors) {
+                        errorMsg = JSON.stringify(errorData.errors);
+                    }
+                } catch {
+                    // Not JSON, use text as-is
+                    if (errorText.length < 200) {
+                        errorMsg = errorText;
+                    } else {
+                        errorMsg += `. Status: ${response.status}. Check console for details.`;
+                    }
+                }
             } catch (e) {
                 console.error('Could not read error response:', e);
+                errorMsg += `. Status: ${response.status}`;
             }
         } else {
             console.error('No response received - possible network error');
-            errorMsg += '. No response from server. Check network.';
+            errorMsg = 'No response from server. Check network connection.';
         }
         alert(errorMsg);
     }

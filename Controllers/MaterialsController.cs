@@ -121,6 +121,19 @@ public class MaterialsController : ControllerBase
     public async Task<ActionResult<Material>> CreateMaterial(Material material)
     {
         var clinicId = GetClinicId();
+
+        // Check if material with same name already exists
+        var existingMaterial = await _context.Materials
+            .FirstOrDefaultAsync(m => m.Name == material.Name && m.ClinicId == clinicId);
+
+        if (existingMaterial != null)
+        {
+            return BadRequest(new {
+                message = $"Material '{material.Name}' already exists. Please edit the existing material or add stock to it instead.",
+                existingMaterialId = existingMaterial.Id
+            });
+        }
+
         material.ClinicId = clinicId;
         material.CreatedAt = DateTime.UtcNow;
 

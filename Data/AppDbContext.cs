@@ -55,5 +55,10 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<User>()
             .HasIndex(u => u.Email)
             .IsUnique();
+
+        // Make Material Name unique per clinic
+        modelBuilder.Entity<Material>()
+            .HasIndex(m => new { m.Name, m.ClinicId })
+            .IsUnique();
     }
 }
