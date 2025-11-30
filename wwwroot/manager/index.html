@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manager Dashboard - DentalCare</title>
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <span class="logo-icon">DC</span>
+                    <span class="logo-text">DentalCare</span>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" data-page="overview">
+                    <span class="nav-icon">■</span>
+                    <span class="nav-text">Overview</span>
+                </a>
+                <a href="#" class="nav-item" data-page="doctors">
+                    <span class="nav-icon">☷</span>
+                    <span class="nav-text">Doctors</span>
+                </a>
+                <a href="#" class="nav-item" data-page="materials">
+                    <span class="nav-icon">□</span>
+                    <span class="nav-text">Materials</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button class="logout-btn" id="logoutBtn">
+                    <span class="nav-icon">←</span>
+                    <span class="nav-text">Logout</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Bar -->
+            <header class="top-bar">
+                <div class="top-bar-left">
+                    <h1 id="pageTitle">Dashboard</h1>
+                    <p class="breadcrumb">Home / Dashboard</p>
+                </div>
+                <div class="top-bar-right">
+                    <div class="search-box">
+                        <input type="text" placeholder="Search...">
+                    </div>
+                    <div class="user-menu" id="userMenu">
+                        <div class="user-avatar">
+                            <span id="userInitials">AM</span>
+                        </div>
+                        <div class="user-info">
+                            <span class="user-name" id="userName">Manager</span>
+                            <span class="user-role" id="userRole">Manager</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dynamic Page Content Container -->
+            <div id="pageContainer" class="page-container"></div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/main.js" type="module"></script>
+</body>
+</html>

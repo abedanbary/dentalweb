@@ -3,7 +3,7 @@ const API_BASE_URL = window.location.origin;
 
 // Check if already logged in
 if (localStorage.getItem('authToken')) {
-    window.location.href = '/dashboard.html';
+    window.location.href = '/manager/';
 }
 
 // Initialize
@@ -120,7 +120,7 @@ async function handleLogin(e) {
 
             // Redirect to dashboard
             setTimeout(() => {
-                window.location.href = '/dashboard.html';
+                window.location.href = '/manager/';
             }, 1000);
         } else {
             showAlert(alertDiv, 'error', data.message || 'Login failed');
