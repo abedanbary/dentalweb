@@ -259,7 +259,14 @@ async function loadMaterialHistory(materialId, container) {
             </thead>
             <tbody>
                 ${transactions.map(t => {
-                    const date = new Date(t.createdAt).toLocaleString();
+                    const date = new Date(t.createdAt).toLocaleString('ar-SA', {
+                        year: 'numeric',
+                        month: '2-digit',
+                        day: '2-digit',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        second: '2-digit'
+                    });
                     const quantityClass = t.quantity > 0 ? 'quantity-positive' : 'quantity-negative';
                     const quantityText = t.quantity > 0 ? `+${t.quantity}` : t.quantity;
 

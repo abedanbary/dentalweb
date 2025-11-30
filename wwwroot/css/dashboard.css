@@ -18,7 +18,7 @@
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans Arabic', sans-serif;
     background: var(--light-gray);
     color: var(--dark);
     font-size: 14px;
@@ -34,12 +34,12 @@ body {
 .sidebar {
     width: var(--sidebar-width);
     background: var(--white);
-    border-right: 1px solid var(--border);
+    border-left: 1px solid var(--border);
     display: flex;
     flex-direction: column;
     position: fixed;
     height: 100vh;
-    left: 0;
+    right: 0;
     top: 0;
 }
 
@@ -133,7 +133,7 @@ body {
 
 /* Main Content */
 .main-content {
-    margin-left: var(--sidebar-width);
+    margin-right: var(--sidebar-width);
     flex: 1;
     padding: 24px;
 }
@@ -242,10 +242,10 @@ body {
     border: 1px solid var(--border);
 }
 
-.stat-card-primary { border-left: 3px solid var(--primary); }
-.stat-card-success { border-left: 3px solid var(--success); }
-.stat-card-warning { border-left: 3px solid var(--warning); }
-.stat-card-info { border-left: 3px solid var(--dark); }
+.stat-card-primary { border-right: 3px solid var(--primary); }
+.stat-card-success { border-right: 3px solid var(--success); }
+.stat-card-warning { border-right: 3px solid var(--warning); }
+.stat-card-info { border-right: 3px solid var(--dark); }
 
 .stat-content {
     display: flex;
@@ -767,7 +767,7 @@ body {
 }
 
 .materials-table th {
-    text-align: left;
+    text-align: right;
     padding: 12px 16px;
     font-weight: 600;
     color: var(--dark);
@@ -906,7 +906,7 @@ body {
 }
 
 .history-table th {
-    text-align: left;
+    text-align: right;
     padding: 8px 12px;
     font-weight: 600;
     color: var(--gray);
@@ -986,7 +986,7 @@ body {
     }
 
     .main-content {
-        margin-left: 0;
+        margin-right: 0;
     }
 
     .stats-grid {
