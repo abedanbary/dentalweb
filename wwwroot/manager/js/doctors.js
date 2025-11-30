@@ -4,16 +4,32 @@ let currentDoctorId = null;
 
 // Initialize Doctors Page
 export function initDoctors() {
+    console.log('Initializing Doctors page...');
+
+    // Verify elements exist
+    const addBtn = document.getElementById('addDoctorBtn');
+    const tbody = document.getElementById('doctorsTableBody');
+
+    if (!addBtn || !tbody) {
+        console.error('Doctors page elements not found!', { addBtn, tbody });
+        return;
+    }
+
     setupEventListeners();
     loadDoctors();
 }
 
 // Setup Event Listeners
 function setupEventListeners() {
-    document.getElementById('addDoctorBtn')?.addEventListener('click', () => openDoctorModal());
-    document.getElementById('closeDoctorModal')?.addEventListener('click', closeDoctorModal);
-    document.getElementById('cancelDoctorBtn')?.addEventListener('click', closeDoctorModal);
-    document.getElementById('doctorForm')?.addEventListener('submit', handleDoctorSubmit);
+    const addBtn = document.getElementById('addDoctorBtn');
+    const closeBtn = document.getElementById('closeDoctorModal');
+    const cancelBtn = document.getElementById('cancelDoctorBtn');
+    const form = document.getElementById('doctorForm');
+
+    if (addBtn) addBtn.addEventListener('click', () => openDoctorModal());
+    if (closeBtn) closeBtn.addEventListener('click', closeDoctorModal);
+    if (cancelBtn) cancelBtn.addEventListener('click', closeDoctorModal);
+    if (form) form.addEventListener('submit', handleDoctorSubmit);
 }
 
 // Load Doctors
