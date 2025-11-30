@@ -617,10 +617,17 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
     z-index: 1000;
     align-items: center;
     justify-content: center;
+    animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
 .modal.active {
@@ -629,47 +636,65 @@ body {
 
 .modal-content {
     background: white;
-    border-radius: 8px;
+    border-radius: 12px;
     width: 90%;
     max-width: 560px;
     max-height: 90vh;
     overflow-y: auto;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
 
 .modal-header {
-    padding: 20px 24px;
+    padding: 24px 28px;
     border-bottom: 1px solid var(--border);
     display: flex;
     justify-content: space-between;
     align-items: center;
+    background: linear-gradient(to bottom, #ffffff, #f9fafb);
 }
 
 .modal-header h3 {
-    font-size: 18px;
+    font-size: 20px;
     font-weight: 600;
     color: var(--dark);
+    margin: 0;
 }
 
-.modal-close {
+.close-modal {
     background: none;
     border: none;
-    font-size: 24px;
+    font-size: 28px;
     cursor: pointer;
     color: var(--gray);
     padding: 0;
-    width: 24px;
-    height: 24px;
+    width: 32px;
+    height: 32px;
     display: flex;
     align-items: center;
     justify-content: center;
+    border-radius: 6px;
+    transition: all 0.2s;
 }
 
-.modal-close:hover {
+.close-modal:hover {
+    background: var(--light-gray);
     color: var(--dark);
 }
 
 .form-grid {
-    padding: 24px;
+    padding: 28px;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 20px;
@@ -686,58 +711,109 @@ body {
     grid-column: 1 / -1;
 }
 
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    grid-column: 1 / -1;
+}
+
 .form-group label {
-    font-weight: 500;
+    font-weight: 600;
     color: var(--dark);
     font-size: 13px;
     display: block;
     margin-bottom: 0;
+    letter-spacing: 0.01em;
 }
 
 .form-group input,
-.form-group textarea {
+.form-group textarea,
+.form-group select {
     width: 100%;
-    padding: 10px 12px;
-    border: 1px solid var(--border);
-    border-radius: 6px;
+    padding: 12px 14px;
+    border: 2px solid var(--border);
+    border-radius: 8px;
     font-size: 14px;
     font-family: inherit;
     box-sizing: border-box;
+    transition: all 0.2s ease;
+    background: white;
+}
+
+.form-group input:hover,
+.form-group textarea:hover,
+.form-group select:hover {
+    border-color: #d1d5db;
 }
 
 .form-group input:focus,
-.form-group textarea:focus {
+.form-group textarea:focus,
+.form-group select:focus {
     outline: none;
     border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
 }
 
 .form-group textarea {
     resize: vertical;
-    min-height: 80px;
+    min-height: 100px;
 }
 
 .modal-footer {
-    padding: 16px 24px;
+    padding: 20px 28px;
     border-top: 1px solid var(--border);
     display: flex;
-    gap: 8px;
+    gap: 12px;
     justify-content: flex-end;
+    background: #f9fafb;
 }
 
 .btn-secondary {
-    background: transparent;
+    background: white;
     color: var(--dark);
-    padding: 8px 16px;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    font-weight: 500;
+    padding: 10px 20px;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    font-weight: 600;
     cursor: pointer;
     font-size: 14px;
+    transition: all 0.2s ease;
 }
 
 .btn-secondary:hover {
     background: var(--light-gray);
+    border-color: #d1d5db;
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: white;
+    padding: 10px 24px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary:hover {
+    background: #1d4ed8;
+    box-shadow: 0 4px 6px rgba(37, 99, 235, 0.2);
+    transform: translateY(-1px);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+.btn-primary:disabled {
+    background: #9ca3af;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
 }
 
 .loading-message {

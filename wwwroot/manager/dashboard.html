@@ -129,25 +129,27 @@
                             <button class="close-modal" id="closeDoctorModal">&times;</button>
                         </div>
                         <form id="doctorForm">
-                            <div class="form-group">
-                                <label for="doctorFullName">Full Name</label>
-                                <input type="text" id="doctorFullName" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="doctorEmail">Email</label>
-                                <input type="email" id="doctorEmail" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="doctorPhone">Phone</label>
-                                <input type="tel" id="doctorPhone" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="doctorPassword">Password</label>
-                                <input type="password" id="doctorPassword" required>
+                            <div class="form-grid">
+                                <div class="form-group full-width">
+                                    <label for="doctorFullName">Full Name</label>
+                                    <input type="text" id="doctorFullName" required placeholder="Dr. John Smith">
+                                </div>
+                                <div class="form-group">
+                                    <label for="doctorEmail">Email</label>
+                                    <input type="email" id="doctorEmail" required placeholder="doctor@clinic.com">
+                                </div>
+                                <div class="form-group">
+                                    <label for="doctorPhone">Phone</label>
+                                    <input type="tel" id="doctorPhone" required placeholder="+1 (555) 000-0000">
+                                </div>
+                                <div class="form-group full-width">
+                                    <label for="doctorPassword">Password</label>
+                                    <input type="password" id="doctorPassword" required placeholder="Enter secure password">
+                                </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn-secondary" id="cancelDoctorBtn">Cancel</button>
-                                <button type="submit" class="btn-primary">Save Doctor</button>
+                                <button type="submit" class="btn-primary" id="saveDoctorBtn">Save Doctor</button>
                             </div>
                         </form>
                     </div>
@@ -187,41 +189,39 @@
                             <button class="close-modal" id="closeModal">&times;</button>
                         </div>
                         <form id="materialForm">
-                            <div class="form-group">
-                                <label for="materialName">Material Name</label>
-                                <input type="text" id="materialName" required>
-                            </div>
-                            <div class="form-row">
+                            <div class="form-grid">
+                                <div class="form-group full-width">
+                                    <label for="materialName">Material Name</label>
+                                    <input type="text" id="materialName" required placeholder="e.g., Dental Gloves">
+                                </div>
                                 <div class="form-group">
                                     <label for="quantity">Quantity</label>
-                                    <input type="number" id="quantity" required min="0">
+                                    <input type="number" id="quantity" required min="0" placeholder="0">
                                 </div>
                                 <div class="form-group">
                                     <label for="unit">Unit</label>
-                                    <input type="text" id="unit">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="minimumStock">Minimum Stock</label>
-                                <input type="number" id="minimumStock" required min="0">
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="price">Price</label>
-                                    <input type="number" id="price" step="0.01" min="0">
+                                    <input type="text" id="unit" placeholder="e.g., boxes, pieces">
                                 </div>
                                 <div class="form-group">
+                                    <label for="minimumStock">Minimum Stock</label>
+                                    <input type="number" id="minimumStock" required min="0" placeholder="0">
+                                </div>
+                                <div class="form-group">
+                                    <label for="price">Unit Price ($)</label>
+                                    <input type="number" id="price" step="0.01" min="0" placeholder="0.00">
+                                </div>
+                                <div class="form-group full-width">
                                     <label for="supplier">Supplier</label>
-                                    <input type="text" id="supplier">
+                                    <input type="text" id="supplier" placeholder="Supplier name">
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="notes">Notes</label>
-                                <textarea id="notes" rows="3"></textarea>
+                                <div class="form-group full-width">
+                                    <label for="notes">Notes</label>
+                                    <textarea id="notes" rows="3" placeholder="Additional notes..."></textarea>
+                                </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn-secondary" id="cancelModal">Cancel</button>
-                                <button type="submit" class="btn-primary">Save Material</button>
+                                <button type="submit" class="btn-primary" id="saveMaterialBtn">Save Material</button>
                             </div>
                         </form>
                     </div>
