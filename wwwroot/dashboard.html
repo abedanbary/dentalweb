@@ -26,6 +26,10 @@
                     <span class="nav-icon">□</span>
                     <span class="nav-text">Materials</span>
                 </a>
+                <a href="#" class="nav-item" data-page="doctors">
+                    <span class="nav-icon">👨‍⚕️</span>
+                    <span class="nav-text">Doctors</span>
+                </a>
             </nav>
 
             <div class="sidebar-footer">
@@ -292,6 +296,84 @@
                             <div class="modal-footer">
                                 <button type="button" class="btn-secondary" id="cancelModal">Cancel</button>
                                 <button type="submit" class="btn-primary">Save Material</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Doctors Page -->
+            <div id="page-doctors" class="page-content">
+                <div class="page-header">
+                    <h2>Doctors Management</h2>
+                    <button class="btn-primary" id="addDoctorBtn">+ Add Doctor</button>
+                </div>
+
+                <div class="doctors-table-container">
+                    <table class="doctors-table" id="doctorsTable">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Specialization</th>
+                                <th>Phone</th>
+                                <th>Email</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="doctorsTableBody">
+                            <tr>
+                                <td colspan="6" class="loading-cell">Loading doctors...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Add/Edit Doctor Modal -->
+                <div class="modal" id="doctorModal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 id="doctorModalTitle">Add Doctor</h3>
+                            <button class="modal-close" id="closeDoctorModal">×</button>
+                        </div>
+                        <form id="doctorForm">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label>Full Name *</label>
+                                    <input type="text" id="doctorName" required placeholder="Dr. John Smith">
+                                </div>
+                                <div class="form-group">
+                                    <label>Specialization *</label>
+                                    <input type="text" id="doctorSpecialization" required placeholder="e.g., Orthodontist">
+                                </div>
+                                <div class="form-group">
+                                    <label>Phone</label>
+                                    <input type="tel" id="doctorPhone" placeholder="+1 234 567 8900">
+                                </div>
+                                <div class="form-group">
+                                    <label>Email</label>
+                                    <input type="email" id="doctorEmail" placeholder="doctor@example.com">
+                                </div>
+                                <div class="form-group">
+                                    <label>License Number</label>
+                                    <input type="text" id="doctorLicense" placeholder="License #">
+                                </div>
+                                <div class="form-group">
+                                    <label>Status</label>
+                                    <select id="doctorStatus">
+                                        <option value="Active">Active</option>
+                                        <option value="Inactive">Inactive</option>
+                                        <option value="On Leave">On Leave</option>
+                                    </select>
+                                </div>
+                                <div class="form-group full-width">
+                                    <label>Notes</label>
+                                    <textarea id="doctorNotes" rows="3" placeholder="Additional information..."></textarea>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn-secondary" id="cancelDoctorModal">Cancel</button>
+                                <button type="submit" class="btn-primary">Save Doctor</button>
                             </div>
                         </form>
                     </div>

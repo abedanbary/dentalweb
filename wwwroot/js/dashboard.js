@@ -69,6 +69,12 @@ function setupEventListeners() {
     document.getElementById('closeModal')?.addEventListener('click', closeMaterialModal);
     document.getElementById('cancelModal')?.addEventListener('click', closeMaterialModal);
     document.getElementById('materialForm')?.addEventListener('submit', handleMaterialSubmit);
+
+    // Doctors
+    document.getElementById('addDoctorBtn')?.addEventListener('click', () => openDoctorModal());
+    document.getElementById('closeDoctorModal')?.addEventListener('click', closeDoctorModal);
+    document.getElementById('cancelDoctorModal')?.addEventListener('click', closeDoctorModal);
+    document.getElementById('doctorForm')?.addEventListener('submit', handleDoctorSubmit);
 }
 
 // Navigation
@@ -91,7 +97,7 @@ function navigateToPage(page) {
         'patients': 'Patients',
         'appointments': 'Appointments',
         'materials': 'Materials & Supplies',
-        'doctors': 'Doctors',
+        'doctors': 'Doctors Management',
         'reports': 'Reports',
         'settings': 'Settings'
     };
@@ -100,6 +106,8 @@ function navigateToPage(page) {
     // Load page data
     if (page === 'materials') {
         loadMaterials();
+    } else if (page === 'doctors') {
+        loadDoctors();
     }
 }
 
@@ -417,6 +425,166 @@ async function deleteMaterial(id) {
 window.editMaterial = editMaterial;
 window.deleteMaterial = deleteMaterial;
 window.toggleHistory = toggleHistory;
+
+// DOCTORS MANAGEMENT
+
+let currentDoctorId = null;
+
+async function loadDoctors() {
+    const tbody = document.getElementById('doctorsTableBody');
+    tbody.innerHTML = '<tr><td colspan="6" class="loading-cell">Loading doctors...</td></tr>';
+
+    const response = await apiCall('/api/doctors');
+    if (!response) {
+        tbody.innerHTML = '<tr><td colspan="6" class="loading-cell">Failed to load doctors</td></tr>';
+        return;
+    }
+
+    const doctors = await response.json();
+
+    if (doctors.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" class="loading-cell">No doctors yet. Click "+ Add Doctor" to start!</td></tr>';
+        return;
+    }
+
+    tbody.innerHTML = doctors.map(doctor => {
+        const statusClass = doctor.status === 'Active' ? 'ok' : (doctor.status === 'On Leave' ? 'low' : 'critical');
+
+        return `
+            <tr>
+                <td class="doctor-name-cell">${doctor.fullName}</td>
+                <td>${doctor.specialization}</td>
+                <td>${doctor.phone || '-'}</td>
+                <td>${doctor.email || '-'}</td>
+                <td>
+                    <span class="status-badge ${statusClass}">${doctor.status || 'Active'}</span>
+                </td>
+                <td>
+                    <button class="action-btn" onclick="editDoctor(${doctor.id})" title="Edit">Edit</button>
+                    <button class="action-btn" onclick="deleteDoctor(${doctor.id})" title="Delete">Delete</button>
+                </td>
+            </tr>
+        `;
+    }).join('');
+}
+
+function openDoctorModal(doctor = null) {
+    const modal = document.getElementById('doctorModal');
+    const form = document.getElementById('doctorForm');
+    const title = document.getElementById('doctorModalTitle');
+
+    if (doctor) {
+        title.textContent = 'Edit Doctor';
+        currentDoctorId = doctor.id;
+        document.getElementById('doctorName').value = doctor.fullName;
+        document.getElementById('doctorSpecialization').value = doctor.specialization;
+        document.getElementById('doctorPhone').value = doctor.phone || '';
+        document.getElementById('doctorEmail').value = doctor.email || '';
+        document.getElementById('doctorLicense').value = doctor.licenseNumber || '';
+        document.getElementById('doctorStatus').value = doctor.status || 'Active';
+        document.getElementById('doctorNotes').value = doctor.notes || '';
+    } else {
+        title.textContent = 'Add Doctor';
+        currentDoctorId = null;
+        form.reset();
+    }
+
+    modal.classList.add('active');
+}
+
+function closeDoctorModal() {
+    document.getElementById('doctorModal').classList.remove('active');
+    document.getElementById('doctorForm').reset();
+    currentDoctorId = null;
+}
+
+async function handleDoctorSubmit(e) {
+    e.preventDefault();
+
+    const doctorData = {
+        fullName: document.getElementById('doctorName').value,
+        specialization: document.getElementById('doctorSpecialization').value,
+        phone: document.getElementById('doctorPhone').value,
+        email: document.getElementById('doctorEmail').value,
+        licenseNumber: document.getElementById('doctorLicense').value,
+        status: document.getElementById('doctorStatus').value,
+        notes: document.getElementById('doctorNotes').value
+    };
+
+    if (currentDoctorId) {
+        doctorData.id = currentDoctorId;
+    }
+
+    const url = currentDoctorId
+        ? `/api/doctors/${currentDoctorId}`
+        : '/api/doctors';
+
+    const method = currentDoctorId ? 'PUT' : 'POST';
+
+    const response = await apiCall(url, {
+        method: method,
+        body: JSON.stringify(doctorData)
+    });
+
+    if (response && (response.ok || response.status === 204)) {
+        closeDoctorModal();
+        loadDoctors();
+    } else {
+        let errorMsg = 'Failed to save doctor';
+        if (response) {
+            try {
+                const errorText = await response.text();
+                try {
+                    const errorData = JSON.parse(errorText);
+                    if (errorData.message) {
+                        errorMsg = errorData.message;
+                    } else if (errorData.errors) {
+                        errorMsg = JSON.stringify(errorData.errors);
+                    }
+                } catch {
+                    if (errorText.length < 200) {
+                        errorMsg = errorText;
+                    } else {
+                        errorMsg += `. Status: ${response.status}`;
+                    }
+                }
+            } catch (e) {
+                errorMsg += `. Status: ${response.status}`;
+            }
+        } else {
+            errorMsg = 'No response from server. Check network connection.';
+        }
+        alert(errorMsg);
+    }
+}
+
+async function editDoctor(id) {
+    const response = await apiCall(`/api/doctors/${id}`);
+    if (response && response.ok) {
+        const doctor = await response.json();
+        openDoctorModal(doctor);
+    }
+}
+
+async function deleteDoctor(id) {
+    if (!confirm('Are you sure you want to delete this doctor?')) {
+        return;
+    }
+
+    const response = await apiCall(`/api/doctors/${id}`, {
+        method: 'DELETE'
+    });
+
+    if (response && (response.ok || response.status === 204)) {
+        loadDoctors();
+    } else {
+        alert('Failed to delete doctor');
+    }
+}
+
+// Make doctor functions global for onclick handlers
+window.editDoctor = editDoctor;
+window.deleteDoctor = deleteDoctor;
 
 // Handle Logout
 function handleLogout() {
