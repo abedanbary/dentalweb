@@ -22,6 +22,10 @@
                     <span class="nav-icon">■</span>
                     <span class="nav-text">Overview</span>
                 </a>
+                <a href="#" class="nav-item" data-page="doctors">
+                    <span class="nav-icon">☷</span>
+                    <span class="nav-text">Doctors</span>
+                </a>
                 <a href="#" class="nav-item" data-page="materials">
                     <span class="nav-icon">□</span>
                     <span class="nav-text">Materials</span>
@@ -220,6 +224,72 @@
                         </div>
                     </div>
                 </section>
+            </div>
+
+            <!-- Doctors Page -->
+            <div id="page-doctors" class="page-content">
+                <div class="page-header">
+                    <h2>Doctors</h2>
+                    <button class="btn-primary" id="addDoctorBtn">+ Add Doctor</button>
+                </div>
+
+                <div class="materials-table-container">
+                    <table class="materials-table" id="doctorsTable">
+                        <thead>
+                            <tr>
+                                <th>Full Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Status</th>
+                                <th>Created At</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="doctorsTableBody">
+                            <tr>
+                                <td colspan="6" class="loading-cell">Loading doctors...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Add/Edit Doctor Modal -->
+                <div class="modal" id="doctorModal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 id="doctorModalTitle">Add New Doctor</h3>
+                            <button class="close-modal" id="closeDoctorModal">&times;</button>
+                        </div>
+                        <form id="doctorForm">
+                            <input type="hidden" id="doctorId">
+
+                            <div class="form-group">
+                                <label for="doctorFullName">Full Name</label>
+                                <input type="text" id="doctorFullName" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="doctorEmail">Email</label>
+                                <input type="email" id="doctorEmail" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="doctorPhone">Phone</label>
+                                <input type="tel" id="doctorPhone" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="doctorPassword">Password</label>
+                                <input type="password" id="doctorPassword" required>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn-secondary" id="cancelDoctorBtn">Cancel</button>
+                                <button type="submit" class="btn-primary" id="saveDoctorBtn">Save Doctor</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
 
             <!-- Materials Page -->
