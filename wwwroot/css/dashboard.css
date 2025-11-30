@@ -753,12 +753,55 @@ body {
     border: 1px solid var(--border);
     border-radius: 8px;
     overflow: hidden;
+    overflow-x: auto;
 }
 
 .materials-table {
     width: 100%;
     border-collapse: collapse;
     font-size: 13px;
+    table-layout: fixed;
+}
+
+/* Column widths */
+.materials-table th:nth-child(1),
+.materials-table td:nth-child(1) {
+    width: 40px; /* Expand button */
+}
+
+.materials-table th:nth-child(2),
+.materials-table td:nth-child(2) {
+    width: 20%; /* Material Name */
+}
+
+.materials-table th:nth-child(3),
+.materials-table td:nth-child(3) {
+    width: 12%; /* Current Stock */
+}
+
+.materials-table th:nth-child(4),
+.materials-table td:nth-child(4) {
+    width: 10%; /* Min Stock */
+}
+
+.materials-table th:nth-child(5),
+.materials-table td:nth-child(5) {
+    width: 12%; /* Status */
+}
+
+.materials-table th:nth-child(6),
+.materials-table td:nth-child(6) {
+    width: 10%; /* Price */
+}
+
+.materials-table th:nth-child(7),
+.materials-table td:nth-child(7) {
+    width: 15%; /* Supplier */
+}
+
+.materials-table th:nth-child(8),
+.materials-table td:nth-child(8) {
+    width: 140px; /* Actions */
 }
 
 .materials-table thead {
@@ -774,6 +817,9 @@ body {
     font-size: 12px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .materials-table tbody tr {
@@ -792,6 +838,8 @@ body {
 .materials-table td {
     padding: 12px 16px;
     color: var(--dark);
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .loading-cell {
@@ -898,6 +946,48 @@ body {
     width: 100%;
     border-collapse: collapse;
     font-size: 12px;
+    table-layout: fixed;
+}
+
+/* History table column widths */
+.history-table th:nth-child(1),
+.history-table td:nth-child(1) {
+    width: 15%; /* Date */
+}
+
+.history-table th:nth-child(2),
+.history-table td:nth-child(2) {
+    width: 10%; /* Type */
+}
+
+.history-table th:nth-child(3),
+.history-table td:nth-child(3) {
+    width: 10%; /* Quantity */
+}
+
+.history-table th:nth-child(4),
+.history-table td:nth-child(4) {
+    width: 10%; /* Balance After */
+}
+
+.history-table th:nth-child(5),
+.history-table td:nth-child(5) {
+    width: 10%; /* Unit Cost */
+}
+
+.history-table th:nth-child(6),
+.history-table td:nth-child(6) {
+    width: 12%; /* Supplier */
+}
+
+.history-table th:nth-child(7),
+.history-table td:nth-child(7) {
+    width: 12%; /* Performed By */
+}
+
+.history-table th:nth-child(8),
+.history-table td:nth-child(8) {
+    width: 21%; /* Notes */
 }
 
 .history-table thead {
@@ -912,11 +1002,16 @@ body {
     color: var(--gray);
     font-size: 11px;
     text-transform: uppercase;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .history-table td {
     padding: 8px 12px;
     border-bottom: 1px solid var(--border);
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .history-table tbody tr:last-child td {
