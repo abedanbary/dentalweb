@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manager Dashboard - DentalCare</title>
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <span class="logo-icon">DC</span>
+                    <span class="logo-text">DentalCare</span>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" data-page="overview">
+                    <span class="nav-icon">■</span>
+                    <span class="nav-text">Overview</span>
+                </a>
+                <a href="#" class="nav-item" data-page="doctors">
+                    <span class="nav-icon">☷</span>
+                    <span class="nav-text">Doctors</span>
+                </a>
+                <a href="#" class="nav-item" data-page="materials">
+                    <span class="nav-icon">□</span>
+                    <span class="nav-text">Materials</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button class="logout-btn" id="logoutBtn">
+                    <span class="nav-icon">←</span>
+                    <span class="nav-text">Logout</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Bar -->
+            <header class="top-bar">
+                <div class="top-bar-left">
+                    <h1 id="pageTitle">Dashboard</h1>
+                    <p class="breadcrumb">Home / Dashboard</p>
+                </div>
+                <div class="top-bar-right">
+                    <div class="search-box">
+                        <input type="text" placeholder="Search...">
+                    </div>
+                    <div class="user-menu" id="userMenu">
+                        <div class="user-avatar">
+                            <span id="userInitials">AM</span>
+                        </div>
+                        <div class="user-info">
+                            <span class="user-name" id="userName">Manager</span>
+                            <span class="user-role" id="userRole">Manager</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Overview Page -->
+            <div id="page-overview" class="page-content active">
+                <section class="stats-grid">
+                    <div class="stat-card stat-card-primary">
+                        <div class="stat-content">
+                            <p class="stat-label">Total Patients</p>
+                            <h3 class="stat-value" id="totalPatients">0</h3>
+                            <span class="stat-change positive">+12% this month</span>
+                        </div>
+                    </div>
+                    <div class="stat-card stat-card-success">
+                        <div class="stat-content">
+                            <p class="stat-label">Today's Appointments</p>
+                            <h3 class="stat-value" id="todayAppointments">0</h3>
+                            <span class="stat-change positive">+5 new bookings</span>
+                        </div>
+                    </div>
+                    <div class="stat-card stat-card-warning">
+                        <div class="stat-content">
+                            <p class="stat-label">Low Stock Items</p>
+                            <h3 class="stat-value" id="lowStockItems">0</h3>
+                            <span class="stat-change neutral">Need attention</span>
+                        </div>
+                    </div>
+                    <div class="stat-card stat-card-info">
+                        <div class="stat-content">
+                            <p class="stat-label">This Month Revenue</p>
+                            <h3 class="stat-value" id="monthlyRevenue">$0</h3>
+                            <span class="stat-change positive">+8% growth</span>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Doctors Page -->
+            <div id="page-doctors" class="page-content">
+                <div class="page-header">
+                    <h2>Doctors</h2>
+                    <button class="btn-primary" id="addDoctorBtn">+ Add Doctor</button>
+                </div>
+                <div class="materials-table-container">
+                    <table class="materials-table" id="doctorsTable">
+                        <thead>
+                            <tr>
+                                <th>Full Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Status</th>
+                                <th>Created At</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="doctorsTableBody">
+                            <tr><td colspan="6" class="loading-cell">Loading doctors...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Doctor Modal -->
+                <div class="modal" id="doctorModal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 id="doctorModalTitle">Add New Doctor</h3>
+                            <button class="close-modal" id="closeDoctorModal">&times;</button>
+                        </div>
+                        <form id="doctorForm">
+                            <div class="form-group">
+                                <label for="doctorFullName">Full Name</label>
+                                <input type="text" id="doctorFullName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="doctorEmail">Email</label>
+                                <input type="email" id="doctorEmail" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="doctorPhone">Phone</label>
+                                <input type="tel" id="doctorPhone" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="doctorPassword">Password</label>
+                                <input type="password" id="doctorPassword" required>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn-secondary" id="cancelDoctorBtn">Cancel</button>
+                                <button type="submit" class="btn-primary">Save Doctor</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Materials Page -->
+            <div id="page-materials" class="page-content">
+                <div class="page-header">
+                    <h2>Materials & Supplies</h2>
+                    <button class="btn-primary" id="addMaterialBtn">+ Add Material</button>
+                </div>
+                <div class="materials-table-container">
+                    <table class="materials-table" id="materialsTable">
+                        <thead>
+                            <tr>
+                                <th style="width: 30px"></th>
+                                <th>Material Name</th>
+                                <th>Current Stock</th>
+                                <th>Min. Stock</th>
+                                <th>Status</th>
+                                <th>Price</th>
+                                <th>Supplier</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="materialsTableBody">
+                            <tr><td colspan="8" class="loading-cell">Loading materials...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Material Modal -->
+                <div class="modal" id="materialModal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 id="modalTitle">Add New Material</h3>
+                            <button class="close-modal" id="closeModal">&times;</button>
+                        </div>
+                        <form id="materialForm">
+                            <div class="form-group">
+                                <label for="materialName">Material Name</label>
+                                <input type="text" id="materialName" required>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="quantity">Quantity</label>
+                                    <input type="number" id="quantity" required min="0">
+                                </div>
+                                <div class="form-group">
+                                    <label for="unit">Unit</label>
+                                    <input type="text" id="unit">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="minimumStock">Minimum Stock</label>
+                                <input type="number" id="minimumStock" required min="0">
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="price">Price</label>
+                                    <input type="number" id="price" step="0.01" min="0">
+                                </div>
+                                <div class="form-group">
+                                    <label for="supplier">Supplier</label>
+                                    <input type="text" id="supplier">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="notes">Notes</label>
+                                <textarea id="notes" rows="3"></textarea>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn-secondary" id="cancelModal">Cancel</button>
+                                <button type="submit" class="btn-primary">Save Material</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/dashboard-simple.js"></script>
+</body>
+</html>
