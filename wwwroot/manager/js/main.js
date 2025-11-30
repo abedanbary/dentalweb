@@ -88,10 +88,13 @@ async function navigateToPage(page) {
 
     // Initialize page-specific functionality
     if (pageInitializers[page]) {
-        // Small delay to ensure DOM is ready
-        setTimeout(() => {
+        // Wait for next tick to ensure DOM is ready
+        await new Promise(resolve => setTimeout(resolve, 50));
+        try {
             pageInitializers[page]();
-        }, 100);
+        } catch (error) {
+            console.error(`Error initializing ${page}:`, error);
+        }
     }
 }
 

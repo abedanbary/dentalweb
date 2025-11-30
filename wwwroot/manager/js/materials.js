@@ -4,16 +4,32 @@ let currentMaterialId = null;
 
 // Initialize Materials Page
 export function initMaterials() {
+    console.log('Initializing Materials page...');
+
+    // Verify elements exist
+    const addBtn = document.getElementById('addMaterialBtn');
+    const tbody = document.getElementById('materialsTableBody');
+
+    if (!addBtn || !tbody) {
+        console.error('Materials page elements not found!', { addBtn, tbody });
+        return;
+    }
+
     setupEventListeners();
     loadMaterials();
 }
 
 // Setup Event Listeners
 function setupEventListeners() {
-    document.getElementById('addMaterialBtn')?.addEventListener('click', () => openMaterialModal());
-    document.getElementById('closeModal')?.addEventListener('click', closeMaterialModal);
-    document.getElementById('cancelModal')?.addEventListener('click', closeMaterialModal);
-    document.getElementById('materialForm')?.addEventListener('submit', handleMaterialSubmit);
+    const addBtn = document.getElementById('addMaterialBtn');
+    const closeBtn = document.getElementById('closeModal');
+    const cancelBtn = document.getElementById('cancelModal');
+    const form = document.getElementById('materialForm');
+
+    if (addBtn) addBtn.addEventListener('click', () => openMaterialModal());
+    if (closeBtn) closeBtn.addEventListener('click', closeMaterialModal);
+    if (cancelBtn) cancelBtn.addEventListener('click', closeMaterialModal);
+    if (form) form.addEventListener('submit', handleMaterialSubmit);
 }
 
 // Load Materials
