@@ -842,8 +842,10 @@ body {
 
 .materials-table td:first-child {
     text-align: center;
-    width: 30px;
-    padding: 8px;
+}
+
+.materials-table th:first-child {
+    text-align: center;
 }
 
 .loading-cell {
